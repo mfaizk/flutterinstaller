@@ -18,6 +18,8 @@ class NetChecker {
         return ConnectivityResult.mobile;
       case ConnectivityResult.wifi:
         return ConnectivityResult.wifi;
+      case ConnectivityResult.ethernet:
+        return ConnectivityResult.ethernet;
       case ConnectivityResult.none:
         return ConnectivityResult.none;
       default:

@@ -1,7 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutterinstaller/helpers/net_checker.dart';
+import 'package:flutterinstaller/helpers/provider_class.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,17 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final netChecker = Provider((ref) => NetChecker());
-  final netStatusProvider =
-      StreamProvider.autoDispose<ConnectivityResult>((ref) async* {
-    // return NetChecker().connectionStatusController.stream;
-
-    final status = NetChecker().connectionStatusController;
-
-    await for (final value in status.stream) {
-      yield value;
-    }
-  });
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -30,42 +19,55 @@ class _HomePageState extends State<HomePage> {
 
         AsyncValue<ConnectivityResult> status = ref.watch(netStatusProvider);
 
-        print(status.asData);
-
         return Scaffold(
           body: status.when(
             data: (data) {
-              print(data.toString());
               if (ConnectivityResult.mobile == data ||
                   ConnectivityResult.wifi == data) {
                 return Container(
+                  color: Theme.of(context).primaryColor,
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
                   child: Center(
-                    child: Text(data.name.toString()),
+                    child: Text(
+                      data.name.toString(),
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
                   ),
                 );
               } else {
                 return Container(
+                  color: Theme.of(context).primaryColor,
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
-                  child: const Center(
-                    child: Text("Offline"),
+                  child: Center(
+                    child: Text(
+                      "Offline",
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
                   ),
                 );
               }
             },
             error: (e, s) => Container(
+              color: Theme.of(context).primaryColor,
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: Center(
-                child: Text(e.toString()),
+                child: Text(
+                  e.toString(),
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
               ),
             ),
             loading: () => Container(
+              color: Theme.of(context).primaryColor,
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              child: const Center(child: CircularProgressIndicator()),
+              child: Center(
+                  child: CircularProgressIndicator(
+                backgroundColor: Theme.of(context).backgroundColor,
+              )),
             ),
           ),
         );
