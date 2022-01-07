@@ -15,7 +15,15 @@ void _enablePlatformOverrideForDesktop() {
 
 void main() {
   _enablePlatformOverrideForDesktop();
-  runApp(ProviderScope(child: MaterialApp(home: MyApp())));
+  runApp(
+    ProviderScope(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark(),
+        home: MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
