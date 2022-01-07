@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterinstaller/helpers/download_helper.dart';
 
 class DownloadButton extends StatelessWidget {
   const DownloadButton({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class DownloadButton extends StatelessWidget {
         child: MaterialButton(
           color: Colors.yellow,
           onPressed: () {
-            // DownloadHelper().flutterDownloader();
+            DownloadHelper().getPath();
           },
           child: Text("Download"),
         ),
