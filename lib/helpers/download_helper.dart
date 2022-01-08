@@ -6,22 +6,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:process_run/shell.dart';
 
 class DownloadHelper {
-  StreamController<int> progress = StreamController<int>();
+  StreamController<double> progress = StreamController<double>();
+
   var shell = Shell();
-
-  DownloadHelper() {
-    shell.run('''
-     git --version
-  ''').then((value) {
-      print(value.errLines);
-      print(value.outText);
-    });
-  }
-
   String stableUrl =
       "https://github.com/flutter/flutter/archive/refs/heads/master.zip";
 
   var dio = Dio();
+  DownloadHelper() {}
 
   flutterDownloader() async {
     // String path = await getPath();
@@ -30,19 +22,21 @@ class DownloadHelper {
       stableUrl,
       await getPath() + "/Sdk",
       onReceiveProgress: (count, total) {
-        int percentage = ((count / total) * 100).floor();
-        progress.sink.add(percentage);
+        double percentage = ((count / total) * 100).floorToDouble();
+        progress.add(percentage);
       },
     );
 
     // print(response.headers);
   }
 
-  Future getPath() async {
-    Directory? path = await getDownloadsDirectory();
-    String? dPath = path?.path;
-    // print(dPath);
+  // print(response.headers);
+}
 
-    return dPath;
-  }
+Future getPath() async {
+  Directory? path = await getDownloadsDirectory();
+  String? dPath = path?.path;
+  // print(dPath);
+
+  return dPath;
 }

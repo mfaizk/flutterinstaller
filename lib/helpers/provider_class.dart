@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutterinstaller/helpers/download_helper.dart';
 import 'package:flutterinstaller/helpers/net_checker.dart';
 
 final netStatusProvider =
@@ -9,6 +10,16 @@ final netStatusProvider =
   final status = NetChecker().connectionStatusController;
 
   await for (final value in status.stream) {
+    // print(value.toString());
+
+    yield value;
+  }
+});
+
+final downloadProgress = StreamProvider.autoDispose<double>((ref) async* {
+  final progress = DownloadHelper().progress;
+
+  await for (final value in progress.stream) {
     yield value;
   }
 });

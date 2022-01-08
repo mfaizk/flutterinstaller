@@ -19,7 +19,7 @@ void main() {
     ProviderScope(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark(),
+        theme: ThemeData(primarySwatch: Colors.blue),
         home: MyApp(),
       ),
     ),

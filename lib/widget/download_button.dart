@@ -18,7 +18,7 @@ class DownloadButton extends StatelessWidget {
         child: MaterialButton(
           color: Colors.yellow,
           onPressed: () {
-            DownloadHelper().getPath();
+            DownloadHelper().flutterDownloader();
           },
           child: Text("Download"),
         ),
