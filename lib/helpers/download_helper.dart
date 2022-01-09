@@ -1,31 +1,33 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:process_run/shell.dart';
 
-class DownloadHelper {
-  StreamController<double> progress = StreamController<double>();
-
+class DownloadHelper extends ChangeNotifier {
+  double progress = 0.0;
+  // StreamController<double> progress = StreamController<double>();
   var shell = Shell();
   String stableUrl =
       "https://github.com/flutter/flutter/archive/refs/heads/master.zip";
 
   var dio = Dio();
-  DownloadHelper() {}
+
+  showProgress(c, t) async {
+    double percentage = ((c / t) * 100).floorToDouble();
+
+    progress = percentage;
+    notifyListeners();
+    // print(state.toString());
+  }
 
   flutterDownloader() async {
     // String path = await getPath();
 
-    var response = await dio.download(
-      stableUrl,
-      await getPath() + "/Sdk",
-      onReceiveProgress: (count, total) {
-        double percentage = ((count / total) * 100).floorToDouble();
-        progress.add(percentage);
-      },
-    );
+    await dio.download(stableUrl, await getPath() + "/Sdk",
+        onReceiveProgress: showProgress);
 
     // print(response.headers);
   }

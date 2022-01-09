@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutterinstaller/helpers/download_helper.dart';
+import 'package:flutterinstaller/helpers/provider_class.dart';
 
-class DownloadButton extends StatelessWidget {
+class DownloadButton extends ConsumerWidget {
   const DownloadButton({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       color: Colors.white,
       height: MediaQuery.of(context).size.height * 0.1,
@@ -18,7 +20,7 @@ class DownloadButton extends StatelessWidget {
         child: MaterialButton(
           color: Colors.yellow,
           onPressed: () {
-            DownloadHelper().flutterDownloader();
+            ref.read(progress).flutterDownloader();
           },
           child: Text("Download"),
         ),

@@ -34,19 +34,25 @@ class _HomePageState extends State<HomePage> {
               children: [
                 const SetSdkToDownload(),
                 const DownloadButton(),
+                // Consumer(
+                //   builder: (context, ref, child) {
+                //     AsyncValue<double> progress = ref.watch(downloadProgress);
+                //     return progress.when(data: (data) {
+                //       return Text(data.toString());
+                //     }, error: (e, s) {
+                //       return Text(e.toString());
+                //     }, loading: () {
+                //       return const CircularProgressIndicator();
+                //     });
+                //   },
+                // ),
                 Consumer(
                   builder: (context, ref, child) {
-                    AsyncValue<double> progress = ref.watch(downloadProgress);
-
-                    return progress.when(data: (data) {
-                      return Text(data.toString());
-                    }, error: (e, s) {
-                      return Text(e.toString());
-                    }, loading: () {
-                      return const CircularProgressIndicator();
-                    });
+                    final value = ref.watch(progress);
+                    print(value.progress);
+                    return Text(value.progress.toString());
                   },
-                ),
+                )
               ],
             ),
           )),

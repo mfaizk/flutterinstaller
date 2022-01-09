@@ -16,10 +16,14 @@ final netStatusProvider =
   }
 });
 
-final downloadProgress = StreamProvider.autoDispose<double>((ref) async* {
-  final progress = DownloadHelper().progress;
+// final downloadProgress = StreamProvider<double>((ref) async* {
+//   final progress = DownloadHelper().progress;
 
-  await for (final value in progress.stream) {
-    yield value;
-  }
+//   await for (final value in progress.stream) {
+//     yield value;
+//   }
+// });
+
+final progress = ChangeNotifierProvider<DownloadHelper>((ref) {
+  return DownloadHelper();
 });
