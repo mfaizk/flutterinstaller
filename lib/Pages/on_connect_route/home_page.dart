@@ -34,6 +34,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const SetSdkToDownload(),
+                const Text('----------Flutter Installer----------'),
                 Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.width * 0.05)),

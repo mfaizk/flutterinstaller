@@ -41,6 +41,7 @@ dependencies:
   process_run: ^0.12.3+1
   lottie: ^1.2.1
   flutter_animation_progress_bar: ^2.0.1
+  archive: ^3.1.8
 
 
 dev_dependencies:

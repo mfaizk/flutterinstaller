@@ -1,3 +1,6 @@
+//Unzip is dependency should preinstalled on system before running this app
+//Git is dependency should preinstalled on system before running this app
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
@@ -14,6 +17,8 @@ void _enablePlatformOverrideForDesktop() {
 }
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   _enablePlatformOverrideForDesktop();
   runApp(
     ProviderScope(
