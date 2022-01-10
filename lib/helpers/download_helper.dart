@@ -8,6 +8,10 @@ import 'package:process_run/shell.dart';
 
 class DownloadHelper extends ChangeNotifier {
   double progress = 0.0;
+  var total = 0;
+  bool dCompleted = false;
+  String status = "";
+  bool dStared = false;
   // StreamController<double> progress = StreamController<double>();
   var shell = Shell();
   String stableUrl =
@@ -17,7 +21,8 @@ class DownloadHelper extends ChangeNotifier {
 
   showProgress(c, t) async {
     double percentage = ((c / t) * 100).floorToDouble();
-
+    // print(t);
+    total = t;
     progress = percentage;
     notifyListeners();
     // print(state.toString());
@@ -25,9 +30,21 @@ class DownloadHelper extends ChangeNotifier {
 
   flutterDownloader() async {
     // String path = await getPath();
-
-    await dio.download(stableUrl, await getPath() + "/Sdk",
-        onReceiveProgress: showProgress);
+    dStared = true;
+    notifyListeners();
+    await dio
+        .download(stableUrl, await getPath() + "/Sdk",
+            onReceiveProgress: showProgress)
+        .whenComplete(() {
+      dCompleted = !dCompleted;
+      status = "Download Completed";
+      dStared = false;
+      notifyListeners();
+    }).catchError((e) {
+      status = e.toString();
+      dStared = false;
+      notifyListeners();
+    });
 
     // print(response.headers);
   }

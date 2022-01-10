@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutterinstaller/helpers/provider_class.dart';
 import 'package:flutterinstaller/widget/download_button.dart';
@@ -26,33 +27,60 @@ class _HomePageState extends State<HomePage> {
       body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(color: Theme.of(context).backgroundColor),
+          decoration: BoxDecoration(color: Theme.of(context).primaryColor),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const SetSdkToDownload(),
-                const DownloadButton(),
-                // Consumer(
-                //   builder: (context, ref, child) {
-                //     AsyncValue<double> progress = ref.watch(downloadProgress);
-                //     return progress.when(data: (data) {
-                //       return Text(data.toString());
-                //     }, error: (e, s) {
-                //       return Text(e.toString());
-                //     }, loading: () {
-                //       return const CircularProgressIndicator();
-                //     });
-                //   },
-                // ),
+                Padding(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.width * 0.05)),
                 Consumer(
                   builder: (context, ref, child) {
                     final value = ref.watch(progress);
                     print(value.progress);
-                    return Text(value.progress.toString());
+
+                    return AnimatedSwitcher(
+                        duration: const Duration(seconds: 1),
+                        child: value.progress == 0.0
+                            ? const DownloadButton()
+                            : Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.4,
+                                width: MediaQuery.of(context).size.width,
+                                color: Theme.of(context).primaryColor,
+                                child: AnimatedSwitcher(
+                                    duration: const Duration(seconds: 1),
+                                    child: value.dCompleted == false ||
+                                            value.status == ""
+                                        ? Container(
+                                            alignment: Alignment.center,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.4,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                            child: value.total == -1
+                                                ? const LinearProgressIndicator()
+                                                : FAProgressBar(
+                                                    backgroundColor:
+                                                        Theme.of(context)
+                                                            .primaryColor,
+                                                    progressColor: Colors.green,
+                                                    currentValue:
+                                                        value.progress.toInt(),
+                                                    displayText: '%',
+                                                  ),
+                                          )
+                                        : Text(value.status)),
+                              ));
                   },
-                )
+                ),
               ],
             ),
           )),

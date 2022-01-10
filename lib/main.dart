@@ -19,7 +19,7 @@ void main() {
     ProviderScope(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(primarySwatch: Colors.blue),
+        theme: ThemeData.dark(),
         home: MyApp(),
       ),
     ),
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           loading: () => Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            color: Theme.of(context).backgroundColor,
+            color: Theme.of(context).primaryColor,
             child: Center(
               child: CircularProgressIndicator(
                 color: Theme.of(context).progressIndicatorTheme.color,
